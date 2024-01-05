@@ -1,12 +1,13 @@
-import { Avatar, Box, Divider, Drawer, Icon, List, ListItemButton, ListItemIcon, ListItemText, useMediaQuery, useTheme } from "@mui/material";
+import { Avatar, Box, Divider, Drawer,  List,  useMediaQuery, useTheme } from "@mui/material";
 import { useDrawerContext } from "../../contexts";
+import { ListItemLink } from "./list-item-link/ListItemLink";
 
 interface IMenuLateralProps {
     children: React.ReactNode;
 }
 export const MenuLateral: React.FC<IMenuLateralProps> = ({children}) => {
     const theme = useTheme();
-    const { toggleDrawer, isDrawerOpen} = useDrawerContext();
+    const { toggleDrawer, isDrawerOpen, drawerOptions} = useDrawerContext();
     /*
     default breakpoints of mui:
     xs, extra-small: 0px
@@ -30,12 +31,11 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({children}) => {
                     {/* flex=1 significa que o box vai ocupar todo o resto do espaço disponível */}
                     <Box flex={1}>
                         <List component="nav" aria-label="main mailbox folders">
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Icon>home</Icon>
-                                </ListItemIcon>
-                                <ListItemText primary="Página Inicial" />
-                            </ListItemButton>
+                            {
+                                drawerOptions.map(drawerOption => (
+                                    <ListItemLink key={drawerOption.path} onClick={smValue ? toggleDrawer : undefined} to={drawerOption.path} iconName={drawerOption.iconName} itemLinkText={drawerOption.itemLinkText}/>
+                                ))
+                            }
                         </List>
                     </Box>
                 </Box>
