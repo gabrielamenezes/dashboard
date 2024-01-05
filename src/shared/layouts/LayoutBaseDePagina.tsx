@@ -16,7 +16,7 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePaginaProps> = ({children
     const {toggleDrawer} = useDrawerContext();
     return (
         <Box height="100%" display="flex" flexDirection="column" gap={1}>
-            <Box padding={1} display="flex" alignItems="center" gap={1} height={smValue ? 6 : mdValue ? 8 : 12} >
+            <Box padding={1} display="flex" alignItems="center" gap={1} height={theme.spacing(smValue ? 6 : mdValue ? 8 : 12)} >
                 {smValue && 
                     <IconButton onClick={toggleDrawer}>
                         <Icon>menu</Icon>
