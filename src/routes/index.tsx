@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useDrawerContext } from "../shared/contexts";
 import { useEffect } from "react";
-import { Dashboard } from "../pages";
+import { Dashboard, ListagemDePessoas } from "../pages";
 
 export const AppRoutes = () => {
     //const {toggleTheme} = useThemeContext();
@@ -15,15 +15,17 @@ export const AppRoutes = () => {
             path: '/pagina-inicial',
         },
         {
-            iconName: 'shopping_bag',
-            itemLinkText: 'Produtos',
-            path: '/produtos'
+            iconName: 'group',
+            itemLinkText: 'Pessoas',
+            path: '/pessoas'
         }
         ])
     },[setDrawerOptions])
     return (
         <Routes>
             <Route path="/pagina-inicial" element={<Dashboard/>}/>
+            <Route path="/pessoas" element={<ListagemDePessoas/>}/>
+            {/* <Route path="/cidades/detalhe/:id" element={<Dashboard/>}/> */}
             <Route path="*" element={<Navigate to="/pagina-inicial"/>}/>
         </Routes>
     );
