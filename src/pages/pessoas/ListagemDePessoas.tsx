@@ -1,56 +1,91 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { FerramentasDaListagem, DataTable } from "../../shared/components";
+import { FerramentasDaListagem } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { IListagemPessoa, PessoasService } from "../../shared/services/api/pessoas/PessoasService";
 import { useDebounce } from "../../shared/hooks";
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TableFooter, LinearProgress, Pagination } from "@mui/material";
+import { Environment } from "../../shared/environment";
 
-export const ListagemDePessoas: React.FC= () => {
+export const ListagemDePessoas: React.FC = () => {
   const [linhas, setLinhas] = useState<IListagemPessoa[]>([])
   const [contagemDeRegistros, setContagemDeRegistros] = useState(0)
   const [isLoading, setIsLoading] = useState(true);
 
-  const {debounce} = useDebounce();
+  const { debounce } = useDebounce();
   const [searchParams, setSearchParams] = useSearchParams();
 
 
   const busca = useMemo(() => {
-        return searchParams.get('busca') || '';
-    }, [searchParams])
+    return searchParams.get('busca') || '';
+  }, [searchParams])
 
-  //   const pagina = useMemo(() => {
-  //     return searchParams.get('pagina') || '';
-  // }, [searchParams])
+  const pagina = useMemo(() => {
+    return Number(searchParams.get('pagina') || '1');
+  }, [searchParams])
 
-    useEffect(() => {
-      setIsLoading(true);
-      debounce(() => {
-        PessoasService.getAll(1, busca)
-         .then((result) => {
-            setIsLoading(false);
-            if(result instanceof Error) {
-              alert(result.message)
-            } else {
-              console.log(result)
-              setLinhas(result.data)
-              setContagemDeRegistros(result.totalCount)
-            }
-         })
-      });
+  useEffect(() => {
+    setIsLoading(true);
+    debounce(() => {
+      PessoasService.getAll(pagina, busca)
+        .then((result) => {
+          setIsLoading(false);
+          if (result instanceof Error) {
+            alert(result.message)
+          } else {
+            console.log(result)
+            setLinhas(result.data)
+            setContagemDeRegistros(result.totalCount)
+          }
+        })
+    });
 
-    },[busca, debounce])
-    return (
-        <LayoutBaseDePagina
-        tituloDaPagina="Listagem de pessoas"
-        barraDeFerramentas={
-          <FerramentasDaListagem
-            textoBotaoNovo="Nova Pessoa"
-            mostrarInputBusca
-            textoDaBusca={busca}
-            aoMudarTextoDaBusca={(texto) => setSearchParams({busca: texto}, {replace: true})}
-          />}>
-            <DataTable linhas={linhas} isLoading={isLoading} registrosCount={contagemDeRegistros}/>
-        </LayoutBaseDePagina>
-    );
+  }, [busca, debounce, pagina])
+  return (
+    <LayoutBaseDePagina
+      tituloDaPagina="Listagem de pessoas"
+      barraDeFerramentas={
+        <FerramentasDaListagem
+          textoBotaoNovo="Nova Pessoa"
+          mostrarInputBusca
+          textoDaBusca={busca}
+          aoMudarTextoDaBusca={(texto) => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}
+        />}>
+           <TableContainer component={Paper} variant="outlined" sx={{ m: 1, width: 'auto' }}>
+            <Table aria-label="Tabela de consulta de registros">
+                <TableHead>
+                    <TableRow>
+                        <TableCell align="center">Nome completo</TableCell>
+                        <TableCell align="center">E-mail</TableCell>
+                        <TableCell align="center">Ações</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {linhas.map(linha => (
+                        <TableRow key={linha.id}>
+                            <TableCell align="center">{linha.nomeCompleto}</TableCell>
+                            <TableCell align="center">{linha.email}</TableCell>
+                            <TableCell align="center">Ações</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+                {contagemDeRegistros == 0 && !isLoading && (<caption>{Environment.LISTAGEM_VAZIA}</caption>)}
+                <TableFooter>
+                    {isLoading && (
+                        <TableRow>
+                            <TableCell colSpan={3} align="center"><LinearProgress variant="indeterminate" sx={{ width: '100%' }} /></TableCell>
+                        </TableRow>)}
+                    {(!isLoading && contagemDeRegistros > 0 && contagemDeRegistros > Environment.LIMITE_DE_LINHAS) && (
+                        <TableRow>
+                            <TableCell colSpan={3}>
+                                <Pagination count={Math.ceil(Number(contagemDeRegistros/Environment.LIMITE_DE_LINHAS))} page={pagina} onChange={(_, newPage) => setSearchParams({busca, pagina: newPage.toString()}, {replace: true})}/>
+                            </TableCell>
+                        </TableRow>)}
+                </TableFooter>
+            </Table>
+        </TableContainer>
+      {/* <DataTable linhas={linhas} isLoading={isLoading} registrosCount={contagemDeRegistros} pagina={pagina}  /> */}
+    </LayoutBaseDePagina>
+  );
 }
