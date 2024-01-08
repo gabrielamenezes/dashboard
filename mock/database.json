@@ -23,6 +23,48 @@
             "nomeCompleto": "José",
             "email": "jose@gmail.com",
             "cidadeId":3
+        },
+        {
+            "id": 5,
+            "nomeCompleto": "Luiz",
+            "email": "luiz@gmail.com",
+            "cidadeId":4
+        },
+        {
+            "id": 6,
+            "nomeCompleto": "Maria",
+            "email": "maria@gmail.com",
+            "cidadeId":5
+        },
+        {
+            "id": 7,
+            "nomeCompleto": "Carol",
+            "email": "carol@gmail.com",
+            "cidadeId":2
+        },
+        {
+            "id": 8,
+            "nomeCompleto": "Lucas",
+            "email": "lucas@gmail.com",
+            "cidadeId":6
+        },
+        {
+            "id": 9,
+            "nomeCompleto": "Leonardo",
+            "email": "leonardo@gmail.com",
+            "cidadeId":10
+        },
+        {
+            "id": 10,
+            "nomeCompleto": "Ana",
+            "email": "ana@gmail.com",
+            "cidadeId":4
+        },
+        {
+            "id": 11,
+            "nomeCompleto": "Beatriz",
+            "email": "beatriz@gmail.com",
+            "cidadeId":4
         }
     ]
 }
