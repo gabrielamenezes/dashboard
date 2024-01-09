@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Swal from 'sweetalert2'
 
 import { FerramentasDaListagem } from "../../shared/components";
@@ -14,6 +14,7 @@ export const ListagemDePessoas: React.FC = () => {
   const [contagemDeRegistros, setContagemDeRegistros] = useState(0)
   const [isLoading, setIsLoading] = useState(true);
 
+  const navigate = useNavigate();
   const { debounce } = useDebounce();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -101,7 +102,7 @@ export const ListagemDePessoas: React.FC = () => {
                               <IconButton size="small" onClick={() => handleDelete(linha.id)}>
                                 <Icon>delete</Icon>
                               </IconButton>
-                              <IconButton size="small">
+                              <IconButton size="small" onClick={() => navigate(`/pessoas/detalhe/${linha.id}`)}>
                                 <Icon>edit</Icon>
                               </IconButton>
                             </TableCell>
