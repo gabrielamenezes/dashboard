@@ -81,6 +81,7 @@ export const ListagemDePessoas: React.FC = () => {
           mostrarInputBusca
           textoDaBusca={busca}
           aoMudarTextoDaBusca={(texto) => setSearchParams({ busca: texto, pagina: '1' }, { replace: true })}
+          aoClicarEmNovo={() => navigate('/pessoas/detalhe/nova')}
         />}>
            <TableContainer component={Paper} variant="outlined" sx={{ m: 1, width: 'auto' }}>
             <Table aria-label="Tabela de consulta de registros">
