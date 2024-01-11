@@ -24,6 +24,7 @@ export const ListagemDePessoas: React.FC = () => {
   }, [searchParams])
 
   const pagina = useMemo(() => {
+    //pegando o valor da query string pagina na url
     return Number(searchParams.get('pagina') || '1');
   }, [searchParams])
 
@@ -114,11 +115,11 @@ export const ListagemDePessoas: React.FC = () => {
                 <TableFooter>
                     {isLoading && (
                         <TableRow>
-                            <TableCell colSpan={3} align="center"><LinearProgress variant="indeterminate" sx={{ width: '100%' }} /></TableCell>
+                            <TableCell colSpan={4} align="center"><LinearProgress variant="indeterminate" sx={{ width: '100%' }} /></TableCell>
                         </TableRow>)}
                     {(!isLoading && contagemDeRegistros > 0 && contagemDeRegistros > Environment.LIMITE_DE_LINHAS) && (
                         <TableRow>
-                            <TableCell colSpan={3}>
+                            <TableCell colSpan={4}>
                                 <Pagination count={Math.ceil(Number(contagemDeRegistros/Environment.LIMITE_DE_LINHAS))} page={pagina} onChange={(_, newPage) => setSearchParams({busca, pagina: newPage.toString()}, {replace: true})}/>
                             </TableCell>
                         </TableRow>)}
