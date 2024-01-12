@@ -3,8 +3,9 @@ import { LayoutBaseDePagina } from "../../shared/layouts";
 import { FerramentasDeDetalhe } from "../../shared/components";
 import { PessoasService } from "../../shared/services/api/pessoas/PessoasService";
 import { useEffect, useState } from "react";
-import { LinearProgress } from "@mui/material";
 import Swal from "sweetalert2";
+import { Form } from "@unform/web";
+import { VTextField } from "../../shared/forms";
 
 export const DetalheDePessoas: React.FC = () => {
 
@@ -72,9 +73,14 @@ export const DetalheDePessoas: React.FC = () => {
             aoClicarEmNovo={() => navigate('/pessoas/detalhe/nova')}
           />
         }>
-            {isLoading && (
+            {/* {isLoading && (
                 <LinearProgress variant="indeterminate"/>
-            )}
+            )} */}
+
+            <Form onSubmit={(dados) => console.log(dados)} initialData={{}}>
+                <VTextField name={'nomeCompleto'} />
+            <button type="submit">ok</button>
+            </Form>
             detalhe de pessoas {id}
         </LayoutBaseDePagina>
     )
